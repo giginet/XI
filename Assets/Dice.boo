@@ -73,7 +73,7 @@ class Dice (MonoBehaviour):
 		dotUp as single = Vector3.Dot(transform.up, Vector3.up)
 		next as Vector3 = self.NextPosition(self.currentPosition, self.rollingDirection)
 		distance as single = Vector3.Distance(next, self.transform.position)
-		if Mathf.Abs(dotFwd) > 0.999 or Mathf.Abs(dotRight) > 0.999 or Mathf.Abs(dotUp) > 0.999 and distance < scale * 0.1:
+		if (Mathf.Abs(dotFwd) > 0.99 or Mathf.Abs(dotRight) > 0.99 or Mathf.Abs(dotUp) > 0.99) and distance < scale:
 			field as Field = GameObject.FindWithTag("Field").GetComponent[of Field]()
 			field.MoveDice(self.PositionToMatrix(self.currentPosition), self.Matrix())
 			self.transform.position = next

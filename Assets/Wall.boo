@@ -11,7 +11,9 @@ class Wall (MonoBehaviour):
 		self.CheckRolling()
 		
 	def RollDice(player as Aqui):
-		dice = player.currentDice.GetComponent[of Dice]()
+		d = player.currentDice
+		if not d: return
+		dice = d.GetComponent[of Dice]()
 		if dice.CanRolling(self.direction):
 			dice.SendMessage("SetOwner", player)
 			dice.SendMessage("StartRotate", self.direction)

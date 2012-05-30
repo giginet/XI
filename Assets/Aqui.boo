@@ -25,7 +25,7 @@ class Aqui (MonoBehaviour):
 			self.currentDice = otherObject.gameObject
 			
 	def OnOutGround(otherObject as Collider):
-		if otherObject.gameObject == self.currentDice:
+		if otherObject.gameObject == self.currentDice and self.state == PlayerState.Normal:
 			self.currentDice = null
 		
 	def OnControllerColliderHit(hit as ControllerColliderHit):
@@ -35,6 +35,13 @@ class Aqui (MonoBehaviour):
 			
 	def StartRolling(wall as Wall):
 		self.state = PlayerState.Rolling
+		self.ToggleControl(false)
 			
 	def EndRolling():
 		self.state = PlayerState.Normal
+		self.ToggleControl(true)
+
+	def ToggleControl(toggle as bool):
+		self.GetComponent[of CharacterMotor]().canControl = toggle
+		collider.enabled = toggle
+		self.GetComponent[of CharacterController]().enabled = toggle
