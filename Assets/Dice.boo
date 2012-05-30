@@ -25,6 +25,7 @@ class Dice (MonoBehaviour):
 		if self.state == DiceState.Rolling and self.rollingDirection != Direction.None:
 			collider.enabled = false
 			self.owner.transform.position.x = self.transform.position.x
+			self.owner.transform.position.y = self.scale * 3
 			self.owner.transform.position.z = self.transform.position.z
 			Rotate(self.rollingDirection)
 			CheckEndRotate()
@@ -146,10 +147,10 @@ class Dice (MonoBehaviour):
 	def CanThrough(direction as Direction):
 		field as Field = FindObjectOfType(Field) as Field
 		next = field.GetDice(Field.MatrixByDirection(self.Matrix(), direction))
-		return not next and self.transform.position.y > self.scale / 2
+		return next or self.transform.position.y < self.scale / 2
 		
 	def CanRolling(direction as Direction):
-		return not Field.IsOffField(Field.MatrixByDirection(self.Matrix(), direction)) and self.CanThrough(direction) and self.state == DiceState.Normal
+		return not Field.IsOffField(Field.MatrixByDirection(self.Matrix(), direction)) and not self.CanThrough(direction) and self.state == DiceState.Normal
 		
 	def Matrix():
 		return self.PositionToMatrix(self.transform.position)

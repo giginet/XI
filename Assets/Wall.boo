@@ -21,7 +21,7 @@ class Wall (MonoBehaviour):
 
 	def ToggleEnable(toggle as bool):
 		collider.enabled = toggle
-		renderer.enabled = toggle	
+		renderer.enabled = toggle
 
 	def Disable():
 		self.ToggleEnable(false)
@@ -34,4 +34,4 @@ class Wall (MonoBehaviour):
 		aqui = player.GetComponent[of Aqui]()
 		if aqui.currentDice:
 			dice = aqui.currentDice.GetComponent[of Dice]()
-			self.ToggleEnable(dice.CanThrough(self.direction))
+			self.ToggleEnable(not dice.CanThrough(self.direction))
