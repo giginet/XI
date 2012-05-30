@@ -9,8 +9,8 @@ class Field (MonoBehaviour):
 		self.transform.localScale.z = Setting.WIDTH * 10
 		self.transform.localScale.x = Setting.HEIGHT * 10
 		self.field = {}
-		PopDice(Vector2(5, 5), false)
-		for a in range(Mathf.Floor(15 + Random.value * 15)):
+		PopDice(Vector2(Mathf.Floor(Setting.WIDTH / 2), Mathf.Floor(Setting.HEIGHT / 2)), false)
+		for a in range(Mathf.Floor(5 + Random.value * 5)):
 			PopDice(false)
 		
 	def Update ():
@@ -64,7 +64,7 @@ class Field (MonoBehaviour):
 		return null
 				
 	def LotPopDice():
-		if popCount % 100 == 0:
+		if popCount % 300 == 0:
 			self.PopDice(true)
 		++popCount
 		

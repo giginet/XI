@@ -21,7 +21,6 @@ class Wall (MonoBehaviour):
 
 	def ToggleEnable(toggle as bool):
 		collider.enabled = toggle
-		renderer.enabled = toggle
 
 	def Disable():
 		self.ToggleEnable(false)
