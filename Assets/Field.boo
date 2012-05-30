@@ -46,7 +46,10 @@ class Field (MonoBehaviour):
 			
 	def PopDice(position as Vector2):
 		if not self.IsExist(position):
-			dice = Instantiate(dicePrefab, self.MatrixToPosition(position), Quaternion.identity)
+			list = array([Mathf.Floor(Random.value * 4) * 90 for i in range(3)])
+			q = Quaternion.identity
+			q.eulerAngles = Vector3(list[0], list[1], list[2])
+			dice = Instantiate(dicePrefab, self.MatrixToPosition(position), q)
 			self.SetDiceWithPosition(dice, position)
 		
 	static def MatrixToPosition(position as Vector2) as Vector3:
