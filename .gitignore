@@ -1,0 +1,23 @@
+*.meta
+Assembly-Boo-vs.booproj
+Assembly-Boo.booproj
+Assembly-Boo.pidb
+Assembly-CSharp-firstpass-vs.csproj
+Assembly-CSharp-firstpass.csproj
+Assembly-CSharp-firstpass.pidb
+Assembly-CSharp-vs.csproj
+Assembly-CSharp.csproj
+Assembly-CSharp.pidb
+Assembly-UnityScript-firstpass-vs.unityproj
+Assembly-UnityScript-firstpass.pidb
+Assembly-UnityScript-firstpass.unityproj
+Assembly-UnityScript-vs.unityproj
+Assembly-UnityScript.pidb
+Assembly-UnityScript.unityproj
+Library
+Temp
+XI-csharp.sln
+XI.sln
+XI.userprefs
+Assets/Standard\ Assets
+Assets/Standard\ Assets\ (Mobile)
