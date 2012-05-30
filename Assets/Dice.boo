@@ -25,10 +25,13 @@ class Dice (MonoBehaviour):
 			
 	def Update ():
 		if self.state == DiceState.Rolling and self.rollingDirection != Direction.None:
+			collider.enabled = false
 			self.owner.transform.position.x = self.transform.position.x
 			self.owner.transform.position.z = self.transform.position.z
 			Rotate(self.rollingDirection)
 			CheckEndRotate()
+		else:
+			collider.enabled = true
 		
 	def StartRotate(direction as Direction):
 		self.state = DiceState.Rolling

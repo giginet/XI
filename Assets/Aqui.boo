@@ -15,39 +15,26 @@ class Aqui (MonoBehaviour):
 		wall = GameObject.Find("Wall")
 					
 	def Update ():
-		dice as Dice = self.currentDice.GetComponent[of Dice]()
-		v = Field.MatrixToPosition(dice.Matrix())
-		wall.transform.position = v + Vector3.up * Setting.DICE_SIZE
+		if self.currentDice:
+			dice as Dice = self.currentDice.GetComponent[of Dice]()
+			v = Field.MatrixToPosition(dice.Matrix())
+			wall.transform.position = v + Vector3.up * Setting.DICE_SIZE
 			
 	def OnGround(otherObject as Collider):
-		print("ground")
-		if otherObject.tag == "Dice":
-			self.CheckNeighbor()
-		
+		if otherObject.gameObject.tag == "Dice":
+			self.currentDice = otherObject.gameObject
+			
 	def OnOutGround(otherObject as Collider):
-		pass
+		if otherObject.gameObject == self.currentDice:
+			self.currentDice = null
 		
 	def OnControllerColliderHit(hit as ControllerColliderHit):
 		obj as GameObject = hit.gameObject
 		if obj.tag == "Wall" and self.state == PlayerState.Normal:
 			obj.SendMessage("RollDice", self)
-		elif obj.tag == "Dice":
-			self.currentDice = obj
 			
 	def StartRolling(wall as Wall):
 		self.state = PlayerState.Rolling
 			
 	def EndRolling():
 		self.state = PlayerState.Normal
-		self.CheckNeighbor()
-		
-	def CheckNeighbor():
-		if self.currentDice:
-			for obj as Transform in self.currentDice.transform:
-				if obj.tag == "Wall":
-					dice as Dice = self.currentDice.GetComponent[of Dice]()
-					w as Wall = obj.GetComponent("Wall")
-					if dice.CanRolling(w.direction):
-						w.Enable()
-					else:
-						w.Disable()

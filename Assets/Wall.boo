@@ -8,7 +8,7 @@ class Wall (MonoBehaviour):
 		defaultPosition = self.transform.localPosition
 	
 	def Update ():
-		pass
+		self.CheckRolling()
 		
 	def RollDice(player as Aqui):
 		dice = player.currentDice.GetComponent[of Dice]()
@@ -26,3 +26,10 @@ class Wall (MonoBehaviour):
 		
 	def Enable():
 		self.ToggleEnable(true)
+
+	def CheckRolling():
+		player = GameObject.FindWithTag("Player")
+		aqui = player.GetComponent[of Aqui]()
+		if aqui.currentDice:
+			dice = aqui.currentDice.GetComponent[of Dice]()
+			self.ToggleEnable(dice.CanRolling(self.direction))
