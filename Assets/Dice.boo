@@ -137,10 +137,13 @@ class Dice (MonoBehaviour):
 		y as single = Mathf.Round(global.z / size) + Mathf.Floor(Setting.HEIGHT / 2)
 		return Vector2(x, y)
 		
-	def CanRolling(direction as Direction):
+	def CanThrough(direction as Direction):
 		field as Field = FindObjectOfType(Field) as Field
 		next = field.GetDice(Field.MatrixByDirection(self.Matrix(), direction))
-		return not next
+		return not next and self.transform.position.y > self.scale / 2
+		
+	def CanRolling(direction as Direction):
+		return self.CanThrough(direction) and self.state == DiceState.Normal
 		
 	def Matrix():
 		return self.PositionToMatrix(self.transform.position)
@@ -153,3 +156,4 @@ class Dice (MonoBehaviour):
 		
 	def CanVanishWith(dice as Dice):
 		return dice.CanVanish() and self.CanVanish() and dice.UpSide() == self.UpSide()
+		

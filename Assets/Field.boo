@@ -65,8 +65,6 @@ class Field (MonoBehaviour):
 			x += 1
 		elif direction == Direction.Left:
 			x -= 1
-		if x >= Setting.WIDTH or y >= Setting.HEIGHT:
-			return null
 		return Vector2(x, y)
 		
 	def GetNeighborList(position as Vector2) as List:
