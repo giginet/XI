@@ -40,6 +40,10 @@ class Aqui (MonoBehaviour):
 	def EndRolling():
 		self.state = PlayerState.Normal
 		self.ToggleControl(true)
+		position as Vector2 = self.currentDice.GetComponent[of Dice]().Matrix()
+		field as Field = GameObject.FindWithTag("Field").GetComponent[of Field]()
+		list = field.GetNeighborList(position)
+		print(len(list))
 
 	def ToggleControl(toggle as bool):
 		self.GetComponent[of CharacterMotor]().canControl = toggle
