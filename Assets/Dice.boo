@@ -11,7 +11,6 @@ class Dice (MonoBehaviour):
 	public currentPosition as Vector3
 	public currentRotation as Quaternion
 	private owner as Aqui
-	private moves = []
 	private rollingDirection = Direction.None
 	private scale as single
 	
@@ -20,7 +19,6 @@ class Dice (MonoBehaviour):
 			return self.state
 
 	def Start ():
-		field = GameObject.FindWithTag("Field")
 		self.scale = Setting.DICE_SIZE
 			
 	def Update ():
@@ -76,6 +74,8 @@ class Dice (MonoBehaviour):
 		next as Vector3 = self.NextPosition(self.currentPosition, self.rollingDirection)
 		distance as single = Vector3.Distance(next, self.transform.position)
 		if Mathf.Abs(dotFwd) > 0.999 or Mathf.Abs(dotRight) > 0.999 or Mathf.Abs(dotUp) > 0.999 and distance < scale * 0.1:
+			field as Field = GameObject.FindWithTag("Field").GetComponent[of Field]()
+			field.MoveDice(self.PositionToMatrix(self.currentPosition), self.Matrix())
 			self.transform.position = next
 			self.transform.rotation = self.Horizontal(self.transform.rotation)
 			self.state = DiceState.Normal
