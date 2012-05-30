@@ -31,11 +31,17 @@ class Dice (MonoBehaviour):
 		else:
 			collider.enabled = true
 		if self.state == DiceState.Vanish:
-			speed = self.scale * 2 / 500
+			speed = self.scale * 2 / Setting.VANISH_FRAME
 			self.transform.Translate(Vector3.up * -1 * speed, Space.World)
-		if self.transform.position.y < -self.scale:
-			field = GameObject.FindWithTag("Field").GetComponent[of Field]()
-			field.RemoveDice(self.Matrix())
+			if self.transform.position.y < -self.scale:
+				field = GameObject.FindWithTag("Field").GetComponent[of Field]()
+				field.RemoveDice(self.Matrix())
+		elif self.state == DiceState.Appear:
+			speed = self.scale * 2 / Setting.APPEAR_FRAME 
+			self.transform.Translate(Vector3.up * speed, Space.World)
+			if self.transform.position.y >= self.scale:
+				self.transform.position.y = self.scale
+				self.state = DiceState.Normal	
 		
 	def StartRotate(direction as Direction):
 		self.state = DiceState.Rolling

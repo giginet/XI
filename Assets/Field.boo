@@ -3,19 +3,18 @@ import UnityEngine
 class Field (MonoBehaviour):
 	public dicePrefab as GameObject 
 	private field as System.Collections.Hashtable
+	private popCount = 0
 
 	def Start ():
 		self.transform.localScale.z = Setting.WIDTH * 10
 		self.transform.localScale.x = Setting.HEIGHT * 10
 		self.field = {}
-		PopDice(Vector2(5, 5))
-		for a in range(30):
-			x = Mathf.Floor(Random.value * Setting.WIDTH)
-			y = Mathf.Floor(Random.value * Setting.HEIGHT) 
-			PopDice(Vector2(x, y))
+		PopDice(Vector2(5, 5), false)
+		for a in range(Mathf.Floor(15 + Random.value * 15)):
+			PopDice(false)
 		
 	def Update ():
-		pass
+		self.LotPopDice()
 
 	def GetDice(position as Vector2) as GameObject:
 		if self.IsExist(position):
@@ -43,14 +42,31 @@ class Field (MonoBehaviour):
 		dice = self.GetDice(position)
 		self.field.Remove(position)
 		Destroy(dice)
+		
+	def PopDice(animation as bool):
+		x = Mathf.Floor(Random.value * Setting.WIDTH)
+		y = Mathf.Floor(Random.value * Setting.HEIGHT) 
+		return PopDice(Vector2(x, y), animation)
 			
-	def PopDice(position as Vector2):
+	def PopDice(position as Vector2, animation as bool):
 		if not self.IsExist(position):
 			list = array([Mathf.Floor(Random.value * 4) * 90 for i in range(3)])
 			q = Quaternion.identity
 			q.eulerAngles = Vector3(list[0], list[1], list[2])
-			dice = Instantiate(dicePrefab, self.MatrixToPosition(position), q)
-			self.SetDiceWithPosition(dice, position)
+			v = self.MatrixToPosition(position)
+			if animation:
+				v.y = Setting.DICE_SIZE * -1
+			obj = Instantiate(dicePrefab, v, q) as GameObject
+			self.SetDiceWithPosition(obj, position)
+			dice = obj.GetComponent[of Dice]()
+			dice.state = DiceState.Appear
+			return obj
+		return null
+				
+	def LotPopDice():
+		if popCount % 100 == 0:
+			self.PopDice(true)
+		++popCount
 		
 	static def MatrixToPosition(position as Vector2) as Vector3:
 		x = Setting.DICE_SIZE * 2 * (position.x - Mathf.Floor(Setting.WIDTH / 2))
@@ -94,4 +110,3 @@ class Field (MonoBehaviour):
 				if dice.CanVanishWith(nextDice):
 					vanish += CheckNeighbor(next, checkedList)
 		return vanish
-	
