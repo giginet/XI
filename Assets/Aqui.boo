@@ -17,20 +17,33 @@ class Aqui (MonoBehaviour):
 		pass
 			
 	def OnGround(otherObject as Collider):
-		pass
+		print("ground")
+		if otherObject.tag == "Dice":
+			self.CheckNeighbor()
 		
 	def OnOutGround(otherObject as Collider):
 		pass
 		
 	def OnControllerColliderHit(hit as ControllerColliderHit):
-		wall as GameObject = hit.gameObject
-		if wall.tag == "Wall" and self.state == PlayerState.Normal:
-			wall.SendMessage("RollDice", self)
+		obj as GameObject = hit.gameObject
+		if obj.tag == "Wall" and self.state == PlayerState.Normal:
+			obj.SendMessage("RollDice", self)
+		elif obj.tag == "Dice":
+			self.currentDice = obj
 	
 	def StartRolling(wall as Wall):
-		self.currentDice = wall.gameObject.transform.parent.gameObject
 		self.state = PlayerState.Rolling
 			
 	def EndRolling():
 		self.state = PlayerState.Normal
-		self.currentDice = null 
+		self.CheckNeighbor()
+		
+	def CheckNeighbor():
+		if self.currentDice:
+			for obj as Transform in self.currentDice.transform:
+				if obj.tag == "Wall":
+					wall as Wall = obj.GetComponent("Wall")
+					if wall.dice.CanRolling(wall.direction):
+						wall.Enable()
+					else:
+						wall.Disable()
