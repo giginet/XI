@@ -110,3 +110,6 @@ class Field (MonoBehaviour):
 				if dice.CanVanishWith(nextDice):
 					vanish += CheckNeighbor(next, checkedList)
 		return vanish
+		
+	static def IsOffField(position as Vector2):
+		return position.x < 0 or position.y < 0 or position.x >= Setting.WIDTH or position.y >= Setting.HEIGHT

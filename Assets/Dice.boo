@@ -149,7 +149,7 @@ class Dice (MonoBehaviour):
 		return not next and self.transform.position.y > self.scale / 2
 		
 	def CanRolling(direction as Direction):
-		return self.CanThrough(direction) and self.state == DiceState.Normal
+		return not Field.IsOffField(Field.MatrixByDirection(self.Matrix(), direction)) and self.CanThrough(direction) and self.state == DiceState.Normal
 		
 	def Matrix():
 		return self.PositionToMatrix(self.transform.position)
