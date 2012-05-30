@@ -39,6 +39,11 @@ class Field (MonoBehaviour):
 			self.SetDiceWithPosition(dice, dst)
 			self.field.Remove(src)
 			
+	def RemoveDice(position as Vector2):
+		dice = self.GetDice(position)
+		self.field.Remove(position)
+		Destroy(dice)
+			
 	def PopDice(position as Vector2):
 		if not self.IsExist(position):
 			dice = Instantiate(dicePrefab, self.MatrixToPosition(position), Quaternion.identity)
@@ -85,7 +90,7 @@ class Field (MonoBehaviour):
 				next = Field.MatrixByDirection(position, direction)
 				if not self.IsExist(next): continue
 				nextDice as Dice = self.GetDice(next).GetComponent[of Dice]()
-				if dice.UpSide() == nextDice.UpSide():
+				if dice.CanVanishWith(nextDice):
 					vanish += CheckNeighbor(next, checkedList)
 		return vanish
 	

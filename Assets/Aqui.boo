@@ -40,12 +40,20 @@ class Aqui (MonoBehaviour):
 	def EndRolling():
 		self.state = PlayerState.Normal
 		self.ToggleControl(true)
-		position as Vector2 = self.currentDice.GetComponent[of Dice]().Matrix()
-		field as Field = GameObject.FindWithTag("Field").GetComponent[of Field]()
-		list = field.GetNeighborList(position)
-		print(len(list))
+		self.CheckVanishDice()	
 
 	def ToggleControl(toggle as bool):
 		self.GetComponent[of CharacterMotor]().canControl = toggle
 		collider.enabled = toggle
 		self.GetComponent[of CharacterController]().enabled = toggle
+		
+	def CheckVanishDice():
+		dice as Dice = self.currentDice.GetComponent[of Dice]()
+		position as Vector2 = dice.Matrix()
+		field as Field = GameObject.FindWithTag("Field").GetComponent[of Field]()
+		list = field.GetNeighborList(position)
+		upside = dice.UpSide()
+		if upside != 1 and len(list) >= upside:
+			for position as Vector2 in list:
+				dice = field.GetDice(position).GetComponent[of Dice]()
+				dice.StartVanish()
