@@ -7,14 +7,17 @@ enum PlayerState:
 
 class Aqui (MonoBehaviour): 
 	
-	private currentDice as GameObject
+	public currentDice as GameObject
 	private state as PlayerState
+	private wall as GameObject
 	
 	def Start ():
-		pass
+		wall = GameObject.Find("Wall")
 					
 	def Update ():
-		pass
+		dice as Dice = self.currentDice.GetComponent[of Dice]()
+		v = Field.MatrixToPosition(dice.Matrix())
+		wall.transform.position = v + Vector3.up * Setting.DICE_SIZE
 			
 	def OnGround(otherObject as Collider):
 		print("ground")
@@ -30,7 +33,7 @@ class Aqui (MonoBehaviour):
 			obj.SendMessage("RollDice", self)
 		elif obj.tag == "Dice":
 			self.currentDice = obj
-	
+			
 	def StartRolling(wall as Wall):
 		self.state = PlayerState.Rolling
 			
@@ -42,8 +45,9 @@ class Aqui (MonoBehaviour):
 		if self.currentDice:
 			for obj as Transform in self.currentDice.transform:
 				if obj.tag == "Wall":
-					wall as Wall = obj.GetComponent("Wall")
-					if wall.dice.CanRolling(wall.direction):
-						wall.Enable()
+					dice as Dice = self.currentDice.GetComponent[of Dice]()
+					w as Wall = obj.GetComponent("Wall")
+					if dice.CanRolling(w.direction):
+						w.Enable()
 					else:
-						wall.Disable()
+						w.Disable()

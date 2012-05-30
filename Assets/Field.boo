@@ -42,7 +42,7 @@ class Field (MonoBehaviour):
 		dice = Instantiate(dicePrefab, self.MatrixToPosition(position), Quaternion.identity)
 		self.SetDiceWithPosition(dice, position)
 		
-	def MatrixToPosition(matrix as Vector2) as Vector3:
+	static def MatrixToPosition(matrix as Vector2) as Vector3:
 		x = Setting.DICE_SIZE * 2 * (matrix.x - Mathf.Floor(Setting.WIDTH / 2))
 		z = Setting.DICE_SIZE * 2 * (matrix.y - Mathf.Floor(Setting.HEIGHT / 2))
 		return Vector3(x, Setting.DICE_SIZE, z)
